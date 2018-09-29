@@ -11,11 +11,13 @@ static void cacheBench(benchmark::State &state)
 
     std::vector<int> data;
     data.reserve(size);
-    std::vector<int> indices; 
+    std::vector<int> indices;
     indices.reserve(size);
 
     // rng for the data and indices
-    std::default_random_engine random_engine (std::chrono::steady_clock::now().time_since_epoch().count());
+    std::default_random_engine random_engine (
+        std::chrono::steady_clock::now().time_since_epoch().count()
+    );
     std::uniform_int_distribution<int> data_dist {
         std::numeric_limits<int>::min,
         std::numeric_limits<int>::max

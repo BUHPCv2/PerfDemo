@@ -11,7 +11,9 @@ static void clampBench(benchmark::State &state)
     data.reserve(size);
 
     // rng for the data and indices
-    std::default_random_engine random_engine (std::chrono::steady_clock::now().time_since_epoch().count());
+    std::default_random_engine random_engine (
+        std::chrono::steady_clock::now().time_since_epoch().count()
+    );
     std::uniform_int_distribution<int> data_dist {
         std::numeric_limits<int>::min,
         std::numeric_limits<int>::max
@@ -24,12 +26,9 @@ static void clampBench(benchmark::State &state)
         for (int &i : data)
             i = i > 255 ? 255 : i;
         benchmark::DoNotOptimize(data);
-
-        state.SetItemsProcessed(long(state.iterations()) * long(data.size()));
     }
 
-    state.SetBytesProcessed(long(state.iterations() * long(bytes));
-    state.SetLabel(std::to_string(bytes / 1024) + "kb");
+    state.SetItemsProcessed(long(state.iterations()) * long(data.size()));
 }
 
 BENCHMARK(clampBench)->DenseRange(10, 20)->ReportAggregateOnly(true);
