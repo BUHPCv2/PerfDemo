@@ -1,8 +1,9 @@
 #include <vector>
-#include <bencmark/benchmark.h>
+#include <benchmark/benchmark.h>
 #include <limits>
 #include <random>
 #include <chrono>
+#include <iostream>
 
 static void cacheBench(benchmark::State &state)
 {
@@ -19,8 +20,8 @@ static void cacheBench(benchmark::State &state)
         std::chrono::steady_clock::now().time_since_epoch().count()
     );
     std::uniform_int_distribution<int> data_dist {
-        std::numeric_limits<int>::min,
-        std::numeric_limits<int>::max
+        std::numeric_limits<int>::min(),
+        std::numeric_limits<int>::max()
     };
     std::uniform_int_distribution<int> idx_dist {0, size};
 
@@ -44,10 +45,10 @@ static void cacheBench(benchmark::State &state)
             ("" : : "g"(sum) : "memory");
     }
 
-    state.SetBytesProcessed(long(state.iterations() * long(bytes));
+    state.SetBytesProcessed(long(state.iterations()) * long(bytes));
     state.SetLabel(std::to_string(bytes / 1024) + "kb");
 }
 
-BENCHMARK(cacheBench)->DenseRange(10, 20)->ReportAggregateOnly(true);
+BENCHMARK(cacheBench)->DenseRange(10, 20)->ReportAggregatesOnly(true);
 
 BENCHMARK_MAIN();
