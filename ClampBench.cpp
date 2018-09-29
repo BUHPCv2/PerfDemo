@@ -1,5 +1,5 @@
 #include <vector>
-#include <bencmark/benchmark.h>
+#include <benchmark/benchmark.h>
 #include <limits>
 #include <random>
 #include <chrono>
@@ -15,8 +15,8 @@ static void clampBench(benchmark::State &state)
         std::chrono::steady_clock::now().time_since_epoch().count()
     );
     std::uniform_int_distribution<int> data_dist {
-        std::numeric_limits<int>::min,
-        std::numeric_limits<int>::max
+        std::numeric_limits<int>::min(),
+        std::numeric_limits<int>::max()
     };
 
     while (state.KeepRunning())
@@ -31,6 +31,6 @@ static void clampBench(benchmark::State &state)
     state.SetItemsProcessed(long(state.iterations()) * long(data.size()));
 }
 
-BENCHMARK(clampBench)->DenseRange(10, 20)->ReportAggregateOnly(true);
+BENCHMARK(clampBench)->DenseRange(10, 20)->ReportAggregatesOnly(true);
 
 BENCHMARK_MAIN();

@@ -2,6 +2,8 @@
 #include <string>
 #include <sstream>
 #include <cstring>
+#include <chrono>
+#include <random>
 #include <benchmark/benchmark.h>
 
 uint32_t u64ToAsciiStream(uint64_t value, char *buffer)
@@ -25,7 +27,7 @@ static void u64StreamBench(benchmark::State &state)
     std::default_random_engine random_engine (
         std::chrono::steady_clock::now().time_since_epoch().count()
     );
-    std::uniform_int_distribution<int> data_dist{0, std::numeric_limits<int>::max};
+    std::uniform_int_distribution<int> data_dist{0, std::numeric_limits<int>::max()};
 
     // insert random data into the vector and random indexes to the index array
     for (auto i = 0; i < size; ++i)
@@ -44,6 +46,5 @@ static void u64StreamBench(benchmark::State &state)
     state.SetItemsProcessed(long(state.iterations()) * long(data.size()));
 }
 
-BENCHMAKR(u64StreamBench)->DenseRange(5, 20)->ReportAggregateOnly(true);
-
-BENCHMAKR_MAIN();
+BENCHMARK(u64StreamBench)->DenseRange(5, 20)->ReportAggregatesOnly(true);
+BENCHMARK_MAIN();
